@@ -9,7 +9,8 @@ import com.walmart.countrieslist.databinding.ListItemBinding
 import com.walmart.countrieslist.model.Country
 
 class CountryListAdapter(var countries: ArrayList<Country>): RecyclerView.Adapter<CountryListAdapter.CountryViewHolder>() {
-    fun updateCountries(newCountries: List<Country>){
+    fun updateCountries(newCountries: List<Country>?){
+        if(newCountries == null) return
         countries.clear()
         countries.addAll(newCountries)
         val sizeOld = countries.size
