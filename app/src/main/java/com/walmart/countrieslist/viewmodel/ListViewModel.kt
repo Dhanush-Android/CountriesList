@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import com.walmart.countrieslist.model.CountriesApi
 import com.walmart.countrieslist.model.Country
 import androidx.lifecycle.viewModelScope
+import com.walmart.countrieslist.model.NetworkModule
 import kotlinx.coroutines.launch
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -17,11 +18,10 @@ class ListViewModel: ViewModel(){
     val countries: LiveData<List<Country>> get() = _countries
     private val _countriesLoadError = MutableLiveData<Boolean>()
     val countriesLoadError: LiveData<Boolean> get() = _countriesLoadError
-    private val api: CountriesApi = createCountriesApi()
+    private val api: CountriesApi = NetworkModule.createCountriesApi()
     fun refresh(){
         fetchDetails()
     }
-
     private fun fetchDetails(){
         viewModelScope.launch {
             try{
@@ -39,11 +39,5 @@ class ListViewModel: ViewModel(){
             }
         }
     }
-    private fun createCountriesApi(): CountriesApi{
-        val retrofit = Retrofit.Builder()
-            .baseUrl("https://gist.githubusercontent.com/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-        return retrofit.create(CountriesApi::class.java)
-    }
+
 }
